@@ -1,8 +1,10 @@
+from unittest import result
 import selenium
 import requests
 import json
 import dns
 import socket
+from src.dnschecker import checkertools
 import dns.resolver
 from flask import Flask, jsonify
 from flask import make_response
@@ -21,9 +23,44 @@ def cloudflareapi():
     a = requests.post(url=api_url,data=data)
     return a.text
 
-@app.route("/api/dns",methods=["POST"])
+@app.route("/api/dns/cloudflare",methods=["POST"])
 def dns_checker():
-    data=request.json
+    data = request.json
+    result = checkertools.cloudflare(data['domain'],data['type'])
+    return result
+
+@app.route("/api/dns/google",methods=["POST"])
+def dns_checker():
+    data = request.json
+    result = checkertools.google(data["domain"],data["type"])
+    return result
+
+@app.route("/api/dns/opendns",methods=["POST"])
+def dns_checker():
+    data = request.json
+    result = checkertools.opendns(data["domain"],data["type"])
+    return result
+@app.route("/api/dns/quad9",methods=["POST"])
+def dns_checker():
+    data = request.json
+    result = checkertools.quad9(data["domain"],data["type"])
+    return result
+@app.route("/api/dns/turktelekom",methods=["POST"])
+def dns_checker():
+    data = request.json
+    result = checkertools.turktelekom(data["domain"],data["type"])
+    return result
+
+@app.route("/api/dns/customdns",methods=["POST"])
+def dns_checker():
+    data = request.json
+    if (data["dns_server"] == False ):# DNS Server Parametre Kontrolü
+        return print("İşlem Başarısız Lütfen Parametre Bilgisini Doğru Giriniz")
+    else:
+        result = checkertools.customdns(data["domain"],data["type"],data["dns_server"])
+    return result
+
+    """
     records = []
     if data["record"] == "PTR":
         domain_ip = socket.gethostbyname(data["domain"])
@@ -33,7 +70,7 @@ def dns_checker():
     result = dns.resolver.resolve(data["domain"], data["record"])
     for IPval in result:
         records.append(IPval.to_text())
-    return records
+    return records"""
 
 @app.route("/api", methods=["GET"])
 def get():

@@ -74,6 +74,7 @@ class checkertools:
                 return result_ptr[0]
             except:
                 return "['Hatalı işlem hostname bulunamadı']" # Bazı IP hostname bulunmadığı için hata vermektedir.
+        else:
             result  = res.resolve(domain_url, type)
             nameservers = [ns.to_text() for ns in result]
         return nameservers
