@@ -6,6 +6,7 @@
 
 ""/api/dnsflush/cloudflare"" - POST
 Body:
+
 ``{
     "domain":"example.com",
     "type":"NS"
