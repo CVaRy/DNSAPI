@@ -6,10 +6,10 @@
 
 ""/api/dnsflush/cloudflare"" - POST
 Body:
-{
+```{
     "domain":"example.com",
     "type":"NS"
-}
+}```
 
 Type DNS List:
 NS
@@ -24,6 +24,8 @@ TXT
 ""/api/ipwhois"" - POST
 Example
 Body:
+```
 {
     "ip":"9.9.9.9"
 }
+```
